@@ -7,6 +7,7 @@ export class EventController extends BaseController {
         super('api/events')
         this.router
             .get('', this.getAllEvents)
+            .get('/:eventId', this.getEventById)
 
             .use(Auth0Provider.getAuthorizedUserInfo)
 
@@ -36,7 +37,9 @@ export class EventController extends BaseController {
 
     async getEventById(request, response, next) {
         try {
-            const eventId = request.params
+            const eventId = request.params.eventId
+            const event = await eventService.getEventById(eventId)
+            response.send(event)
         } catch (error) {
             next(error)
         }
