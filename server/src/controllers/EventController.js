@@ -34,4 +34,12 @@ export class EventController extends BaseController {
         }
     }
 
+    async getEventById(request, response, next) {
+        try {
+            const eventId = request.params
+        } catch (error) {
+            next(error)
+        }
+    }
+
 }
