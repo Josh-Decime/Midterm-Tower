@@ -11,10 +11,35 @@
 </template>
 
 <script>
+import { computed, onMounted, ref } from 'vue';
+import Pop from '../utils/Pop.js';
+import { eventService } from '../services/EventService.js';
+import { AppState } from '../AppState.js';
+
 export default {
   setup() {
+    onMounted(() => {
+      getAllEvents()
+    })
+
+    const filterBy = ref('')
+
+    async function getAllEvents() {
+      try {
+        await eventService.getAllEvents()
+      } catch (error) {
+        Pop.error(error)
+      }
+    }
+
     return {
-      
+
+      events: computed(() => {
+        if (filterBy.value) {
+          return AppState
+        }
+      })
+
     }
   }
 }
