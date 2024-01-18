@@ -1,12 +1,10 @@
 <template>
-    <div class="event-card selectable m-2 cover-image">
-        <!-- <img :src="event.coverImg" :alt="`Cover image for ${event.name}`"> -->
-        <div>
-            <p class="fs-4">{{ event.name }}</p>
-            <p class="fs-5">{{ event.location }}</p>
-            <p class="fs-5">{{ event.startDate }}</p>
+    <div class="event-card selectable m-2 cover-image" :style="{ backgroundImage: `url(${event.coverImg})` }">
+        <div class="backdrop-blur ">
+            <p class="fs-4 mx-2">{{ event.name }}</p>
+            <p class="fs-5 mx-2">{{ event.location }}</p>
+            <p class="fs-5 mb-0 mx-2">{{ event.startDate }}</p>
         </div>
-
     </div>
 </template>
 
@@ -33,6 +31,22 @@ export default {
 }
 
 .cover-image {
-    background-image: url(event.coverImg);
+    background-size: cover;
+    padding-top: 250px;
+}
+
+.backdrop-blur {
+    backdrop-filter: blur(25px);
+    color: whitesmoke;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(76, 74, 74);
+}
+
+.backdrop-blur:hover {
+    border-style: solid;
+    border-width: 1px;
+    border-color: whitesmoke;
 }
 </style>
