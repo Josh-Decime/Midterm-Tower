@@ -1,13 +1,11 @@
 <template>
   <section class="container-fluid">
     <section class="row bg-secondary px-3 ">
-      <button class="col btn btn-outline-light border-0 my-0">All</button>
-      <button class="col btn btn-outline-light border-0 my-0">Expos</button>
-      <button class="col btn btn-outline-light border-0 my-0">Conventions</button>
-      <button class="col btn btn-outline-light border-0 my-0">Exhibits</button>
-      <button class="col btn btn-outline-light border-0 my-0">Sports</button>
-      <button class="col btn btn-outline-light border-0 my-0">Digital</button>
-      <button class="col btn btn-outline-light border-0 my-0">Concerts</button>
+      <button class="col btn btn-outline-light border-0 my-0" @click="filterBy = ''">All</button>
+      <button class="col btn btn-outline-light border-0 my-0" @click="filterBy = 'concert'">Concerts</button>
+      <button class="col btn btn-outline-light border-0 my-0" @click="filterBy = 'convention'">Conventions</button>
+      <button class="col btn btn-outline-light border-0 my-0" @click="filterBy = 'sport'">Sports</button>
+      <button class="col btn btn-outline-light border-0 my-0" @click="filterBy = 'digital'">Digital</button>
     </section>
     <!-- <section class="row">
       <section class="col-11"> -->
@@ -50,6 +48,7 @@ export default {
       }
     }
     return {
+      filterBy,
       events: computed(() => {
         if (filterBy.value) {
           return AppState.events.filter(event => event.type == filterBy.value);
@@ -83,15 +82,5 @@ export default {
       object-position: center;
     }
   }
-}
-
-.button-styling {
-  color: white;
-  border-radius: 15px;
-}
-
-.button-styling:hover {
-  background-color: white;
-  color: black;
 }
 </style>
