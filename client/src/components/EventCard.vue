@@ -1,17 +1,20 @@
 <template>
-    <div class="event-card selectable m-2 cover-image" :style="{ backgroundImage: `url(${event.coverImg})` }">
-        <div class="backdrop-blur ">
-            <p class="fs-4 mx-2">{{ event.name }}</p>
-            <p class="fs-5 mx-2">{{ event.location }}</p>
-            <p class="fs-5 mb-0 mx-2">{{ event.startDate }}</p>
+    <section v-if="event.id">
+        <div class="event-card selectable m-2 cover-image" :style="{ backgroundImage: `url(${event.coverImg})` }">
+            <div class="backdrop-blur ">
+                <p class="fs-4 mx-2">{{ event.name }}</p>
+                <p class="fs-5 mx-2">{{ event.location }}</p>
+                <p class="fs-5 mb-0 mx-2">{{ event.startDate }}</p>
+            </div>
         </div>
-    </div>
+    </section>
 </template>
 
 
 <script>
 import { AppState } from '../AppState';
 import { computed, ref, onMounted } from 'vue';
+import { Event } from '../models/Event.js';
 export default {
     props: { event: { type: Event, require: true } },
     setup() {

@@ -1,11 +1,21 @@
 <template>
   <section class="container-fluid">
+    <!-- <section class="row">
+      <section class="col-11"> -->
     <div class="row">
       <div v-for="event in events" class="col-6 col-md-3">
         <EventCard :event="event" />
       </div>
     </div>
   </section>
+  <!-- </section>
+    <section class="col-1">
+      <div>
+        <h1>stuff here</h1>
+        <Login />
+      </div>
+    </section>
+  </section> -->
 </template>
 
 <script>
@@ -14,6 +24,7 @@ import Pop from '../utils/Pop.js';
 import { eventService } from '../services/EventService.js';
 import { AppState } from '../AppState.js';
 import EventCard from '../components/EventCard.vue';
+import Login from '../components/Login.vue';
 
 export default {
   setup() {
@@ -40,7 +51,7 @@ export default {
       })
     };
   },
-  components: { EventCard }
+  components: { EventCard, Login }
 }
 </script>
 
