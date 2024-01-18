@@ -1,5 +1,14 @@
 <template>
   <section class="container-fluid">
+    <section class="row bg-secondary px-3 ">
+      <button class="col btn btn-outline-light border-0 my-0">All</button>
+      <button class="col btn btn-outline-light border-0 my-0">Expos</button>
+      <button class="col btn btn-outline-light border-0 my-0">Conventions</button>
+      <button class="col btn btn-outline-light border-0 my-0">Exhibits</button>
+      <button class="col btn btn-outline-light border-0 my-0">Sports</button>
+      <button class="col btn btn-outline-light border-0 my-0">Digital</button>
+      <button class="col btn btn-outline-light border-0 my-0">Concerts</button>
+    </section>
     <!-- <section class="row">
       <section class="col-11"> -->
     <div class="row">
@@ -74,5 +83,15 @@ export default {
       object-position: center;
     }
   }
+}
+
+.button-styling {
+  color: white;
+  border-radius: 15px;
+}
+
+.button-styling:hover {
+  background-color: white;
+  color: black;
 }
 </style>

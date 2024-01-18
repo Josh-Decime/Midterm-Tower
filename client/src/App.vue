@@ -3,6 +3,7 @@
     <Navbar />
   </header>
   <main>
+    <!-- TODO tried to do the login side bar & realized it would take more time than anticipated, leaving for a stretch goal -->
     <!-- <div class="container-fluid">
       <div class="row">
         <section class="col-11"> -->
