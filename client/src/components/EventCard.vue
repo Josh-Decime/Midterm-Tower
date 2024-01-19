@@ -1,10 +1,10 @@
 <template>
     <section v-if="event.id">
-        <div class="event-card selectable m-2 cover-image" :style="{ backgroundImage: `url(${event.coverImg})` }">
+        <div class="event-card selectable m-2 mt-4 cover-image" :style="{ backgroundImage: `url(${event.coverImg})` }">
             <div class="backdrop-blur ">
                 <p class="fs-4 mx-2">{{ event.name }}</p>
                 <p class="fs-5 mx-2">{{ event.location }}</p>
-                <p class="fs-5 mb-0 mx-2">{{ event.startDate }}</p>
+                <p class="fs-5 mb-0 mx-2">{{ event.shortStartDate }}</p>
             </div>
         </div>
     </section>
