@@ -1,7 +1,7 @@
 <template>
     <h1 class="text-center">Create an Event!</h1>
 
-    <form action="" class="row">
+    <form @submit.prevent="createEvent()" class="row">
         <div class="col-5 my-3">
             <input v-model="eventData.name" class="form-control" type="text" required minlength="1" maxlength="30"
                 placeholder="Name of your event..." title="Name of your event" name="event-name" id="event-name">
@@ -41,6 +41,9 @@
 <script>
 import { AppState } from '../AppState';
 import { computed, ref, onMounted } from 'vue';
+import Pop from '../utils/Pop.js';
+import { logger } from '../utils/Logger.js';
+import { eventService } from '../services/EventService.js';
 export default {
 
     setup() {
@@ -48,6 +51,16 @@ export default {
         return {
             eventData,
             typeOptions: ['concert', 'convention', 'sport', 'digital'],
+
+            async createEvent() {
+                try {
+                    logger.log('creating a new event form data:', eventData.value)
+                    const event = await eventService.createEvent(eventData.value)
+                    // TODO this isn't done, i just need to create the function in service
+                } catch (error) {
+                    Pop.error(error)
+                }
+            }
         }
     }
 };
