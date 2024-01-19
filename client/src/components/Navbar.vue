@@ -26,7 +26,7 @@
         <button v-if="account.id" class="btn btn-success" data-bs-toggle="modal"
           data-bs-target="#create-event-modal">Create an Event</button>
         <ModalWrapper modalId="create-event-modal">
-          <h1>this is the modal body</h1>
+          <EventForm v-if="account.id" />
         </ModalWrapper>
 
         <button class="btn text-light" @click="toggleTheme"><i class="mdi"
@@ -43,6 +43,7 @@ import { loadState, saveState } from '../utils/Store.js';
 import Login from './Login.vue';
 import { AppState } from '../AppState.js';
 import ModalWrapper from './ModalWrapper.vue';
+import EventForm from './EventForm.vue';
 export default {
   setup() {
 
@@ -62,7 +63,7 @@ export default {
       account: computed(() => AppState.account)
     }
   },
-  components: { Login, ModalWrapper }
+  components: { Login, ModalWrapper, EventForm }
 }
 </script>
 
