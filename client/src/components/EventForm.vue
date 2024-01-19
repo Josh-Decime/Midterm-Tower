@@ -44,6 +44,8 @@ import { computed, ref, onMounted } from 'vue';
 import Pop from '../utils/Pop.js';
 import { logger } from '../utils/Logger.js';
 import { eventService } from '../services/EventService.js';
+import { Modal } from 'bootstrap';
+import { router } from '../router.js';
 export default {
 
     setup() {
@@ -56,7 +58,9 @@ export default {
                 try {
                     logger.log('creating a new event form data:', eventData.value)
                     const event = await eventService.createEvent(eventData.value)
-                    // TODO this isn't done, i just need to create the function in service
+                    eventData.value = {}
+                    Modal.getOrCreateInstance('#create-event-modal').hide()
+                    router.push({ name: 'Event Details', params: { eventId: event.id } })
                 } catch (error) {
                     Pop.error(error)
                 }
