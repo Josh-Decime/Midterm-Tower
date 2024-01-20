@@ -1,22 +1,27 @@
 <template>
     <div class="container-fluid">
-        <section class="row">
-            <div class="d-flex col-10 card-background" :style="{ backgroundImage: `url(${activeEvent.coverImg})` }">
-                <div class="col-4">
-                    <img :src="activeEvent.coverImg" alt="Event image" class="img-fluid">
-                </div>
-                <div class="col-8">
-                    <div class="d-flex justify-content-between">
-                        <div class="mx-3">
-                            <p class="fs-3 mt-3">{{ activeEvent.name }}</p>
-                            <p class="fs-4">{{ activeEvent.location }}</p>
-                        </div>
-                        <p class="m-3">{{ activeEvent.shortStartDate }}</p>
+        <section class="row justify-content-center">
+            <div class="d-flex col-10 card-background rounded mt-3"
+                :style="{ backgroundImage: `url(${activeEvent.coverImg})` }">
+                <!-- <div class="d-flex col-10"> -->
+
+                <div class="row card-background">
+                    <div class="col-4">
+                        <img :src="activeEvent.coverImg" alt="Event image" class="img-fluid m-3 image-styling">
                     </div>
-                    <p class="mx-3">{{ activeEvent.description }}</p>
-
-
+                    <div class="col-8">
+                        <div class="d-flex justify-content-between">
+                            <div class="px-3">
+                                <p class="fs-3 pt-3">{{ activeEvent.name }}</p>
+                                <p class="fs-4">{{ activeEvent.location }}</p>
+                            </div>
+                            <p class="p-3">{{ activeEvent.shortStartDate }}</p>
+                        </div>
+                        <p class="px-3">{{ activeEvent.description }}</p>
+                    </div>
                 </div>
+
+
             </div>
         </section>
     </div>
@@ -54,7 +59,14 @@ export default {
 <style lang="scss" scoped>
 .card-background {
     background-size: cover;
-    backdrop-filter: blur(250px);
-    background-color: black;
+    backdrop-filter: blur(25px);
+    text-shadow: 2px 2px 3px black;
+    overflow: hidden;
+}
+
+
+.image-styling {
+    border-radius: 15px;
+    box-shadow: 3px 3px 6px black;
 }
 </style>
