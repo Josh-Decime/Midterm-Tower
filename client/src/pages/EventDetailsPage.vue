@@ -1,5 +1,25 @@
 <template>
-    <h1>Event details page!</h1>
+    <div class="container-fluid">
+        <section class="row">
+            <div class="d-flex col-10 card-background" :style="{ backgroundImage: `url(${activeEvent.coverImg})` }">
+                <div class="col-4">
+                    <img :src="activeEvent.coverImg" alt="Event image" class="img-fluid">
+                </div>
+                <div class="col-8">
+                    <div class="d-flex justify-content-between">
+                        <div class="mx-3">
+                            <p class="fs-3 mt-3">{{ activeEvent.name }}</p>
+                            <p class="fs-4">{{ activeEvent.location }}</p>
+                        </div>
+                        <p class="m-3">{{ activeEvent.shortStartDate }}</p>
+                    </div>
+                    <p class="mx-3">{{ activeEvent.description }}</p>
+
+
+                </div>
+            </div>
+        </section>
+    </div>
 </template>
 
 
@@ -23,10 +43,18 @@ export default {
                 Pop.error(error)
             }
         }
-        return {}
+        return {
+            activeEvent: computed(() => AppState.activeEvent)
+        }
     }
 };
 </script>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.card-background {
+    background-size: cover;
+    backdrop-filter: blur(250px);
+    background-color: black;
+}
+</style>
