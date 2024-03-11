@@ -37,6 +37,7 @@ export default {
 
 .cover-image {
     background-size: cover;
+    background-position: center;
     padding-top: 250px;
 }
 

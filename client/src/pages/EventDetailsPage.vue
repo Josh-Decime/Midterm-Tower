@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <section class="row justify-content-center">
-            <div class="d-flex col-10 card-background rounded mt-3"
+            <div class="d-flex col-10 rounded mt-3 background-placement"
                 :style="{ backgroundImage: `url(${activeEvent.coverImg})` }">
                 <!-- <div class="d-flex col-10"> -->
 
@@ -68,5 +68,11 @@ export default {
 .image-styling {
     border-radius: 15px;
     box-shadow: 3px 3px 6px black;
+}
+
+.background-placement {
+    background-size: cover;
+    background-position: 50% 75%;
+    overflow: hidden;
 }
 </style>
