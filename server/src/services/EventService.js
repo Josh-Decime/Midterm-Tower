@@ -36,6 +36,14 @@ class EventService {
     }
 
 
+    async cancelEvent(eventId) {
+        const EventToCancel = await this.getEventById(eventId)
+        EventToCancel.isCanceled = !EventToCancel.isCanceled
+        await EventToCancel.save()
+        return EventToCancel
+    }
+
+
 
 }
 

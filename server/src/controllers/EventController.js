@@ -13,7 +13,9 @@ export class EventController extends BaseController {
 
             .post('', this.createEvent)
             .put('/:eventId', this.editEvent)
+            .delete('/:eventId', this.cancelEvent)
     }
+
     async getAllEvents(request, response, next) {
         try {
             const events = await eventService.getAllEvents()
@@ -51,6 +53,16 @@ export class EventController extends BaseController {
             const eventId = request.params.eventId
             const updateData = request.body
             const event = await eventService.editEvent(eventId, updateData)
+            response.send(event)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async cancelEvent(request, response, next) {
+        try {
+            const eventId = request.params.eventId
+            const event = await eventService.cancelEvent(eventId)
             response.send(event)
         } catch (error) {
             next(error)
