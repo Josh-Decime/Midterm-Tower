@@ -10,6 +10,17 @@ export class CommentController extends BaseController {
     }
 
 
+    async createComment(request, response, next) {
+        try {
+            const commentData = request.body
+            commentData.creatorId = request.userInfo.id
+            commentData.eventId = request.eventId
+            const comment = await commentService.createComment(commentData)
+            response.send(comment)
+        } catch (error) {
+            next(error)
+        }
+    }
 
 
 

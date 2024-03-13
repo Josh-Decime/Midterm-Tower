@@ -6,6 +6,10 @@ export const CommentSchema = new Schema(
         eventId: { type: Schema.Types.ObjectId, required: true, ref: 'Event' },
         body: { type: String, required: true, maxLength: 2000 },
         isAttending: { type: Boolean, default: false },
+    },
+    {
+        timestamps: true,
+        toJSON: { virtuals: true }
     }
 )
 CommentSchema.virtual('creator', {
