@@ -15,7 +15,6 @@ export class CommentController extends BaseController {
         try {
             const commentData = request.body
             commentData.creatorId = request.userInfo.id
-            // commentData.eventId = request.eventId
             const comment = await commentService.createComment(commentData)
             response.send(comment)
         } catch (error) {

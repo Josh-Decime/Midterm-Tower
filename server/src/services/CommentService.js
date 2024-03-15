@@ -4,6 +4,7 @@ import { eventService } from "./EventService.js";
 
 
 class CommentService {
+
     async createComment(commentData) {
         // const event = await eventService.getEventById(commentData.eventId)
         const comment = await dbContext.Comments.create(commentData)
@@ -11,7 +12,10 @@ class CommentService {
         return comment
     }
 
-
+    async getCommentsForEvent(eventId) {
+        const comments = await dbContext.Comments.find({ eventId: eventId }).populate('creator', 'name picture')
+        return comments
+    }
 
 
 
