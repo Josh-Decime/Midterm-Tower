@@ -1,5 +1,5 @@
 import { dbContext } from "../db/DbContext.js";
-import { BadRequest } from "../utils/Errors.js";
+import { BadRequest, Forbidden } from "../utils/Errors.js";
 
 class EventService {
 
@@ -21,8 +21,16 @@ class EventService {
         await event.populate('ticketCount')
         return event
     }
-    async editEvent(eventId, updateData) {
+    async editEvent(eventId, updateData, userId) {
         const originalEvent = await this.getEventById(eventId)
+
+        if (originalEvent.creatorId != userId) {
+            throw new Forbidden('Not your event to edit')
+        }
+        if (originalEvent.isCanceled == true) {
+            throw new BadRequest('you cant edit canceled events')
+        }
+
         originalEvent.name = updateData.name != undefined ? updateData.name : originalEvent.name
         originalEvent.description = updateData.description != undefined ? updateData.description : originalEvent.description
         originalEvent.coverImg = updateData.coverImg != undefined ? updateData.coverImg : originalEvent.coverImg
@@ -36,8 +44,13 @@ class EventService {
     }
 
 
-    async cancelEvent(eventId) {
+    async cancelEvent(eventId, userId) {
         const EventToCancel = await this.getEventById(eventId)
+
+        if (EventToCancel.creatorId != userId) {
+            throw new Forbidden('Not your Event to cancel')
+        }
+
         EventToCancel.isCanceled = !EventToCancel.isCanceled
         await EventToCancel.save()
         return EventToCancel

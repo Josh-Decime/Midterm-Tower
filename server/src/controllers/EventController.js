@@ -56,7 +56,8 @@ export class EventController extends BaseController {
         try {
             const eventId = request.params.eventId
             const updateData = request.body
-            const event = await eventService.editEvent(eventId, updateData)
+            const userId = request.userInfo.id
+            const event = await eventService.editEvent(eventId, updateData, userId)
             response.send(event)
         } catch (error) {
             next(error)
@@ -66,7 +67,8 @@ export class EventController extends BaseController {
     async cancelEvent(request, response, next) {
         try {
             const eventId = request.params.eventId
-            const event = await eventService.cancelEvent(eventId)
+            const userId = request.userInfo.id
+            const event = await eventService.cancelEvent(eventId, userId)
             response.send(event)
         } catch (error) {
             next(error)
