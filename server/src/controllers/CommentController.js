@@ -7,6 +7,7 @@ export class CommentController extends BaseController {
         super('api/comments')
         this.router
             .use(Auth0Provider.getAuthorizedUserInfo)
+            .post('', this.createComment)
     }
 
 
@@ -14,7 +15,7 @@ export class CommentController extends BaseController {
         try {
             const commentData = request.body
             commentData.creatorId = request.userInfo.id
-            commentData.eventId = request.eventId
+            // commentData.eventId = request.eventId
             const comment = await commentService.createComment(commentData)
             response.send(comment)
         } catch (error) {
