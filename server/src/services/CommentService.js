@@ -1,9 +1,10 @@
 import { dbContext } from "../db/DbContext.js";
-import { BadRequest } from "../utils/Errors.js";
+import { BadRequest, Forbidden } from "../utils/Errors.js";
 import { eventService } from "./EventService.js";
 
 
 class CommentService {
+
 
     async createComment(commentData) {
         // const event = await eventService.getEventById(commentData.eventId)
@@ -17,6 +18,17 @@ class CommentService {
         return comments
     }
 
+    async deleteComment(commentId, userId) {
+        const comment = await dbContext.Comments.findById(commentId)
+        if (!comment) {
+            throw new BadRequest(`Invalid id: ${commentId}`)
+        }
+        if (comment.creatorId != userId) {
+            throw new Forbidden('Not yours to delete!')
+        }
+        await comment.deleteOne()
+        return `This comment has been deleted!`
+    }
 
 
 }
