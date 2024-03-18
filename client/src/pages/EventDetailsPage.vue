@@ -18,10 +18,18 @@
                             <p class="p-3">{{ activeEvent.shortStartDate }}</p>
                         </div>
                         <p class="px-3">{{ activeEvent.description }}</p>
+                        <div class="d-flex justify-content-between">
+                            <p class="px-3">{{ activeEvent.capacity }} tickets left</p>
+                            <button class="mx-3 mb-3 btn btn-success">Buy a ticket</button>
+                        </div>
                     </div>
                 </div>
-
-
+            </div>
+            <div class="d-flex col-10 rounded mt-3 row">
+                <p>See who is attending</p>
+                <div class="bg-secondary">
+                    <p>PROFILE PHOTOS GO HERE</p>
+                </div>
             </div>
         </section>
     </div>
