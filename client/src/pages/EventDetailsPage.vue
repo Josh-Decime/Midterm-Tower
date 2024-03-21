@@ -28,7 +28,21 @@
             <div class="d-flex col-10 rounded mt-3 row">
                 <p>See who is attending</p>
                 <div class="bg-secondary">
+                    <!-- TODO profile images from tickets go here -->
                     <p>PROFILE PHOTOS GO HERE</p>
+                </div>
+            </div>
+            <div class="d-flex col-8 rounded mt-3 row">
+                <p>See what people are saying</p>
+                <div class="bg-secondary">
+                    <p class="d-flex justify-content-end">Join the conversation</p>
+                    <textarea class="form-control mb-2" name="" id="" cols="30" rows="3"
+                        placeholder="Your comment here..."></textarea>
+                    <div class=" d-flex justify-content-end">
+                        <button class="btn btn-success">Post Comment</button>
+                    </div>
+                    <!-- TODO imported comments go here -->
+                    <p>Comments from API go here</p>
                 </div>
             </div>
         </section>
