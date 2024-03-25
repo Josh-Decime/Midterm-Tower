@@ -36,11 +36,13 @@
                 <p>See what people are saying</p>
                 <div class="bg-secondary">
                     <p class="d-flex justify-content-end">Join the conversation</p>
-                    <textarea class="form-control mb-2" name="" id="" cols="30" rows="3"
-                        placeholder="Your comment here..."></textarea>
-                    <div class=" d-flex justify-content-end">
-                        <button class="btn btn-success">Post Comment</button>
-                    </div>
+                    <form @submit.prevent="createComment()">
+                        <textarea v-model="commentData" class="form-control mb-2" name="comment-body" id="" cols="30"
+                            rows="3" placeholder="Your comment here..."></textarea>
+                        <div class=" d-flex justify-content-end">
+                            <button class="btn btn-success">Post Comment</button>
+                        </div>
+                    </form>
                     <!-- TODO imported comments go here -->
                     <p>Comments from API go here</p>
                 </div>
@@ -56,13 +58,17 @@ import { AppState } from '../AppState';
 import { computed, ref, onMounted, watchEffect } from 'vue';
 import Pop from '../utils/Pop.js';
 import { eventService } from '../services/EventService.js';
+import { commentService } from '../services/CommentService.js';
 export default {
     setup() {
         const route = useRoute()
         watchEffect(() => {
             route.params.eventId
             getEventById()
+            getComments()
         })
+        const commentData = ref({})
+
         async function getEventById() {
             try {
                 await eventService.getEventById(route.params.eventId)
@@ -70,8 +76,23 @@ export default {
                 Pop.error(error)
             }
         }
+        async function getComments() {
+            try {
+                await eventService.getComments(route.params.eventId)
+            } catch (error) {
+                Pop.error(error)
+            }
+        }
         return {
-            activeEvent: computed(() => AppState.activeEvent)
+            activeEvent: computed(() => AppState.activeEvent),
+            comments: computed(() => AppState.comments),
+            async createComment() {
+                try {
+                    await commentService.createComment(commentData.value)
+                } catch (error) {
+                    Pop.error(error)
+                }
+            }
         }
     }
 };

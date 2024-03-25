@@ -25,6 +25,12 @@ class EventService {
         logger.log('get event by Id response data:', response.data)
         AppState.activeEvent = new Event(response.data)
     }
+    async getComments(eventId) {
+        AppState.comments = []
+        const response = await api.get(`api/events/${eventId}/comments`)
+        logger.log('get comments response data:', response.data)
+        AppState.comments = new Comment(response.data)
+    }
 
 
 
