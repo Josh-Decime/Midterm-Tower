@@ -37,8 +37,8 @@
                 <div class="bg-secondary">
                     <p class="d-flex justify-content-end">Join the conversation</p>
                     <form @submit.prevent="createComment()">
-                        <textarea v-model="commentData" class="form-control mb-2" name="comment-body" id="" cols="30"
-                            rows="3" placeholder="Your comment here..."></textarea>
+                        <textarea v-model="commentData.body" class="form-control mb-2" name="comment-body" id=""
+                            cols="30" rows="3" placeholder="Your comment here..."></textarea>
                         <div class=" d-flex justify-content-end">
                             <button class="btn btn-success">Post Comment</button>
                         </div>
@@ -59,6 +59,7 @@ import { computed, ref, onMounted, watchEffect } from 'vue';
 import Pop from '../utils/Pop.js';
 import { eventService } from '../services/EventService.js';
 import { commentService } from '../services/CommentService.js';
+import { logger } from '../utils/Logger.js';
 export default {
     setup() {
         const route = useRoute()
@@ -86,8 +87,12 @@ export default {
         return {
             activeEvent: computed(() => AppState.activeEvent),
             comments: computed(() => AppState.comments),
+            commentData,
             async createComment() {
                 try {
+                    commentData.value.eventId = route.params.eventId
+                    // commentData.body = commentData.value
+                    logger.log('comment data value:', commentData.value)
                     await commentService.createComment(commentData.value)
                 } catch (error) {
                     Pop.error(error)
