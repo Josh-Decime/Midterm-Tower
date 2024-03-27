@@ -12,44 +12,52 @@
                     <div class="col-8">
                         <div class="d-flex justify-content-between">
                             <div class="px-3">
-                                <p class="fs-3 pt-3">{{ activeEvent.name }}</p>
+                                <div class="mt-2">
+                                    <span class="fs-3 pt-3">{{ activeEvent.name }}</span>
+                                    <span v-if="activeEvent.isCanceled" class="text-danger fw-bolder"> (canceled)</span>
+                                </div>
                                 <p class="fs-4">{{ activeEvent.location }}</p>
                             </div>
                             <p class="p-3">{{ activeEvent.shortStartDate }}</p>
                         </div>
                         <p class="px-3">{{ activeEvent.description }}</p>
                         <div class="d-flex justify-content-between">
-                            <p class="px-3">{{ activeEvent.capacity }} tickets left</p>
-                            <button class="mx-3 mb-3 btn btn-success">Buy a ticket</button>
+                            <p v-if="!activeEvent.isCanceled" class="px-3">{{ activeEvent.capacity }} tickets left</p>
+                            <!-- <p v-if="activeEvent.isCanceled" class="px-3 text-danger fw-bolder">Canceled</p> -->
+                            <button v-if="!activeEvent.isCanceled" class="mx-3 mb-3 btn btn-success">Buy a
+                                ticket</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="d-flex col-10 rounded mt-3 row">
-                <p>See who is attending</p>
-                <div class="bg-secondary">
+                <span>See who is attending</span>
+                <div class="bg-secondary rounded">
                     <!-- TODO profile images from tickets go here -->
                     <p>PROFILE PHOTOS GO HERE</p>
                 </div>
             </div>
             <div class="d-flex col-8 rounded mt-3 row">
-                <p>See what people are saying</p>
-                <div class="bg-secondary">
-                    <p class="d-flex justify-content-end">Join the conversation</p>
+                <span>See what people are saying</span>
+                <div class="bg-secondary rounded">
+                    <span class="d-flex justify-content-end my-1">Join the conversation</span>
                     <form @submit.prevent="createComment()">
                         <textarea v-model="commentData.body" class="form-control mb-2" name="comment-body" id=""
                             cols="30" rows="3" placeholder="Your comment here..."></textarea>
                         <div class=" d-flex justify-content-end">
-                            <button class="btn btn-success">Post Comment</button>
+                            <button class="btn btn-success mb-1">Post Comment</button>
                         </div>
                     </form>
-                    <!-- TODO imported comments go here -->
-                    <div v-for="comment in comments" v-if="comments.length">
-                        <div>
-                            <img :src="comment.creator.picture" alt="">
-                            <p>{{ comment.creator.name }}</p>
+                    <div v-for="comment in  comments " v-if="comments.length" class="row">
+                        <!-- FIXME col is not a good option to have the profile image next to comments -->
+                        <div class="col-3 col-md-1">
+                            <img :src="comment.creator.picture" alt="Profile image" class="comment-profile-photo">
                         </div>
-                        <p>{{ comment.body }}</p>
+                        <div class="col-8 col-md-10 bg-page my-1 me-1 rounded">
+                            <p class="fw-bolder my-0">{{ comment.creator.name }}</p>
+                            <p>{{ comment.body }}</p>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -118,7 +126,6 @@ export default {
     overflow: hidden;
 }
 
-
 .image-styling {
     border-radius: 15px;
     box-shadow: 3px 3px 6px black;
@@ -128,5 +135,10 @@ export default {
     background-size: cover;
     background-position: 50% 75%;
     overflow: hidden;
+}
+
+.comment-profile-photo {
+    height: 5vh;
+    border-radius: 50%;
 }
 </style>
