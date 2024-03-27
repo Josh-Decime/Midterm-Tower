@@ -24,7 +24,8 @@
                         <div class="d-flex justify-content-between">
                             <p v-if="!activeEvent.isCanceled" class="px-3">{{ activeEvent.capacity }} tickets left</p>
                             <!-- <p v-if="activeEvent.isCanceled" class="px-3 text-danger fw-bolder">Canceled</p> -->
-                            <button v-if="!activeEvent.isCanceled" class="mx-3 mb-3 btn btn-success">Buy a
+                            <button v-if="!activeEvent.isCanceled && activeEvent.capacity > 0"
+                                class="mx-3 mb-3 btn btn-success">Buy a
                                 ticket</button>
                         </div>
                     </div>
@@ -45,7 +46,7 @@
                         <textarea v-model="commentData.body" class="form-control mb-2" name="comment-body" id=""
                             cols="30" rows="3" placeholder="Your comment here..."></textarea>
                         <div class=" d-flex justify-content-end">
-                            <button class="btn btn-success mb-1">Post Comment</button>
+                            <button class="btn btn-success mb-3">Post Comment</button>
                         </div>
                     </form>
                     <div v-for="comment in  comments " v-if="comments.length" class="row">
@@ -54,7 +55,13 @@
                             <img :src="comment.creator.picture" alt="Profile image" class="comment-profile-photo">
                         </div>
                         <div class="col-8 col-md-10 bg-page my-1 me-1 rounded">
-                            <p class="fw-bolder my-0">{{ comment.creator.name }}</p>
+                            <div class="d-flex justify-content-between">
+                                <p class="fw-bolder my-0">{{ comment.creator.name }}</p>
+                                <!-- TODO delete buttons only show up if its your comment, needs the function to delete -->
+                                <p v-if="comment.creator.id == account.id" @click="deleteComment(comment.id)"
+                                    class="selectable text-danger mdi mdi-close-outline my-0"
+                                    title="Delete this comment"></p>
+                            </div>
                             <p>{{ comment.body }}</p>
 
                         </div>
@@ -77,12 +84,15 @@ import { logger } from '../utils/Logger.js';
 export default {
     setup() {
         const route = useRoute()
+        const account = computed(() => AppState.account)
+        const activeEvent = computed(() => AppState.activeEvent)
+        const comments = computed(() => AppState.comments)
+        const commentData = ref({})
         watchEffect(() => {
             route.params.eventId
             getEventById()
             getComments()
         })
-        const commentData = ref({})
 
         async function getEventById() {
             try {
@@ -98,20 +108,35 @@ export default {
                 Pop.error(error)
             }
         }
-        return {
-            activeEvent: computed(() => AppState.activeEvent),
-            comments: computed(() => AppState.comments),
-            commentData,
-            async createComment() {
-                try {
-                    commentData.value.eventId = route.params.eventId
-                    // commentData.body = commentData.value
-                    logger.log('comment data value:', commentData.value)
-                    await commentService.createComment(commentData.value)
-                } catch (error) {
-                    Pop.error(error)
-                }
+        async function createComment() {
+            try {
+                commentData.value.eventId = route.params.eventId
+                // commentData.body = commentData.value
+                logger.log('comment data value:', commentData.value)
+                await commentService.createComment(commentData.value)
+            } catch (error) {
+                Pop.error(error)
             }
+        }
+        async function deleteComment(commentId) {
+            try {
+                const confirm = await Pop.confirm("Are you sure you want to delete this comment?")
+                if (!confirm)
+                    return
+                await commentService.deleteComment(commentId)
+            } catch (error) {
+                Pop.error(error)
+            }
+        }
+
+        return {
+            account,
+            activeEvent,
+            comments,
+            commentData,
+            createComment,
+            deleteComment,
+
         }
     }
 };
