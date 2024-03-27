@@ -3,8 +3,6 @@
         <section class="row justify-content-center">
             <div class="d-flex col-10 rounded mt-3 background-placement"
                 :style="{ backgroundImage: `url(${activeEvent.coverImg})` }">
-                <!-- <div class="d-flex col-10"> -->
-
                 <div class="row card-background">
                     <div class="col-4">
                         <img :src="activeEvent.coverImg" alt="Event image" class="img-fluid m-3 image-styling">
@@ -24,7 +22,7 @@
                         <div class="d-flex justify-content-between">
                             <p v-if="!activeEvent.isCanceled" class="px-3">{{ activeEvent.capacity }} tickets left</p>
                             <!-- <p v-if="activeEvent.isCanceled" class="px-3 text-danger fw-bolder">Canceled</p> -->
-                            <button v-if="!activeEvent.isCanceled && activeEvent.capacity > 0"
+                            <button v-if="!activeEvent.isCanceled && activeEvent.capacity > 0" @click="createTicket()"
                                 class="mx-3 mb-3 btn btn-success">Buy a
                                 ticket</button>
                         </div>
@@ -43,6 +41,7 @@
                 <div class="bg-secondary rounded">
                     <span class="d-flex justify-content-end my-1">Join the conversation</span>
                     <form @submit.prevent="createComment()">
+                        <!-- TODO clear the comment box after a comment is posted -->
                         <textarea v-model="commentData.body" class="form-control mb-2" name="comment-body" id=""
                             cols="30" rows="3" placeholder="Your comment here..."></textarea>
                         <div class=" d-flex justify-content-end">
@@ -57,7 +56,6 @@
                         <div class="col-8 col-md-10 bg-page my-1 me-1 rounded">
                             <div class="d-flex justify-content-between">
                                 <p class="fw-bolder my-0">{{ comment.creator.name }}</p>
-                                <!-- TODO delete buttons only show up if its your comment, needs the function to delete -->
                                 <p v-if="comment.creator.id == account.id" @click="deleteComment(comment.id)"
                                     class="selectable text-danger mdi mdi-close-outline my-0"
                                     title="Delete this comment"></p>
@@ -81,6 +79,7 @@ import Pop from '../utils/Pop.js';
 import { eventService } from '../services/EventService.js';
 import { commentService } from '../services/CommentService.js';
 import { logger } from '../utils/Logger.js';
+import { ticketService } from '../services/TicketService.js';
 export default {
     setup() {
         const route = useRoute()
@@ -111,7 +110,6 @@ export default {
         async function createComment() {
             try {
                 commentData.value.eventId = route.params.eventId
-                // commentData.body = commentData.value
                 logger.log('comment data value:', commentData.value)
                 await commentService.createComment(commentData.value)
             } catch (error) {
@@ -128,6 +126,21 @@ export default {
                 Pop.error(error)
             }
         }
+        async function createTicket() {
+            try {
+                // let eventId = route.params.eventId
+                // logger.log('Event Id for making a ticket:', eventId)
+                // I had route.params.eventId in () directly instead of defining it & logging it so i could see, because it says "eventId is required"
+                // await ticketService.createTicket(eventId)
+
+                // FIXME it is creating a ticket now but it doesn't update the capacity. I could edit the capacity every time a ticket is created or deleted, or maybe I could somehow subtract the event capacity by the total ticket count? 
+                let ticketData = { eventId: route.params.eventId }
+                await ticketService.createTicket(ticketData)
+
+            } catch (error) {
+                Pop.error(error)
+            }
+        }
 
         return {
             account,
@@ -136,7 +149,7 @@ export default {
             commentData,
             createComment,
             deleteComment,
-
+            createTicket,
         }
     }
 };
