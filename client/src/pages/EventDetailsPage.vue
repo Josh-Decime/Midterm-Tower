@@ -44,7 +44,13 @@
                         </div>
                     </form>
                     <!-- TODO imported comments go here -->
-                    <p>Comments from API go here</p>
+                    <div v-for="comment in comments" v-if="comments.length">
+                        <div>
+                            <img :src="comment.creator.picture" alt="">
+                            <p>{{ comment.creator.name }}</p>
+                        </div>
+                        <p>{{ comment.body }}</p>
+                    </div>
                 </div>
             </div>
         </section>
