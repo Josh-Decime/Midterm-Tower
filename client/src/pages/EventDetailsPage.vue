@@ -8,6 +8,13 @@
                         <img :src="activeEvent.coverImg" alt="Event image" class="img-fluid m-3 image-styling">
                     </div>
                     <div class="col-8">
+                        <div v-if="activeEvent.creatorId == account.id"
+                            class=" d-flex justify-content-end selectable text-danger mdi mdi-close-outline"
+                            title="Cancel this event"></div>
+                        <!-- NOTE I wrote this incase I want to do a drop down to be able to either edit or delete the event -->
+                        <!-- <div v-if="activeEvent.creatorId == account.id" class=" d-flex justify-content-end">
+                            <button class="btn btn-outline fs-4 mdi mdi-dots-horizontal"></button>
+                        </div> -->
                         <div class="d-flex justify-content-between">
                             <div class="px-3">
                                 <div class="mt-2">
@@ -39,8 +46,10 @@
             <div class="d-flex col-8 rounded mt-3 row">
                 <span>See what people are saying</span>
                 <div class="bg-secondary rounded">
-                    <span class="d-flex justify-content-end my-1">Join the conversation</span>
-                    <form @submit.prevent="createComment()">
+                    <span v-if="account.id" class="d-flex justify-content-end my-1">Join the conversation</span>
+                    <span v-if="!account.id" class="d-flex justify-content-end my-2">Login to join the
+                        conversation</span>
+                    <form v-if="account.id" @submit.prevent="createComment()">
                         <!-- TODO clear the comment box after a comment is posted -->
                         <textarea v-model="commentData.body" class="form-control mb-2" name="comment-body" id=""
                             cols="30" rows="3" placeholder="Your comment here..."></textarea>
@@ -51,7 +60,8 @@
                     <div v-for="comment in  comments " v-if="comments.length" class="row">
                         <!-- FIXME col is not a good option to have the profile image next to comments -->
                         <div class="col-3 col-md-1">
-                            <img :src="comment.creator.picture" alt="Profile image" class="comment-profile-photo">
+                            <img :src="comment.creator.picture" :alt="`${comment.creator.name}'s profile image`"
+                                class="comment-profile-photo">
                         </div>
                         <div class="col-8 col-md-10 bg-page my-1 me-1 rounded">
                             <div class="d-flex justify-content-between">
