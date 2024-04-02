@@ -8,7 +8,7 @@
                         <img :src="activeEvent.coverImg" alt="Event image" class="img-fluid m-3 image-styling">
                     </div>
                     <div class="col-8">
-                        <div v-if="activeEvent.creatorId == account.id"
+                        <div @click="cancelEvent()" v-if="activeEvent.creatorId == account.id"
                             class=" d-flex justify-content-end selectable text-danger mdi mdi-close-outline"
                             title="Cancel this event"></div>
                         <!-- NOTE I wrote this incase I want to do a drop down to be able to either edit or delete the event -->
@@ -151,6 +151,14 @@ export default {
                 Pop.error(error)
             }
         }
+        async function cancelEvent() {
+            try {
+                // TODO working on this, come back to it after picking Zagan up
+                const confirm = await Pop.confirm("Are you sure you want to cancel this event?")
+            } catch (error) {
+                Pop.error(error)
+            }
+        }
 
         return {
             account,
@@ -160,6 +168,7 @@ export default {
             createComment,
             deleteComment,
             createTicket,
+            cancelEvent,
         }
     }
 };
