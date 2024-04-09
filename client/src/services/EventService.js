@@ -34,6 +34,11 @@ class EventService {
         logger.log('comments in the AppState:', AppState.comments)
     }
 
+    // TODO write cancel event function
+    async cancelEvent(eventId) {
+
+    }
+
 
 
 
