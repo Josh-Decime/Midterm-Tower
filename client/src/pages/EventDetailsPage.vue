@@ -151,13 +151,13 @@ export default {
                 Pop.error(error)
             }
         }
-        async function cancelEvent(eventId) {
+        async function cancelEvent() {
             try {
                 // TODO working on this, come back to it after picking Zagan up
                 const confirm = await Pop.confirm("Are you sure you want to cancel this event?")
                 if (!confirm)
                     return
-                await eventService.cancelEvent(eventId)
+                await eventService.cancelEvent(route.params.eventId)
             } catch (error) {
                 Pop.error(error)
             }

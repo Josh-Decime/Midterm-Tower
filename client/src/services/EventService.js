@@ -36,7 +36,9 @@ class EventService {
 
     // TODO write cancel event function
     async cancelEvent(eventId) {
-
+        const response = await api.delete(`api/events/${eventId}`)
+        console.log('event cancelation response', response.data)
+        AppState.activeEvent = new Event(response.data)
     }
 
 
