@@ -14,9 +14,16 @@ export class Event {
         this.isCanceled = data.isCanceled
         this.type = data.type
         this.creator = data.creator
+        this.ticketCount = data.ticketCount
+        this.availability = this.spaceCalculator
     }
 
     get shortStartDate() {
         return this.startDate.toLocaleDateString()
+    }
+
+    get spaceCalculator() {
+        let space = this.capacity - this.ticketCount
+        return space
     }
 }
