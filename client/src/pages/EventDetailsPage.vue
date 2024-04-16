@@ -12,7 +12,7 @@
                             v-if="activeEvent.creatorId == account.id && activeEvent.isCanceled == false"
                             class="fs-4 d-flex justify-content-end selectable text-danger mdi mdi-lock-open-variant"
                             title="Cancel this event"></div>
-                        <div @click="cancelEvent()" v-if="activeEvent.creatorId == account.id && activeEvent.isCanceled"
+                        <div @click="reopenEvent()" v-if="activeEvent.creatorId == account.id && activeEvent.isCanceled"
                             class="fs-4 d-flex justify-content-end selectable text-danger mdi mdi-lock"
                             title="Re-open this event"></div>
                         <!-- NOTE I wrote this incase I want to do a drop down to be able to either edit or delete the event -->
@@ -22,16 +22,18 @@
                         <div class="d-flex justify-content-between">
                             <div class="px-3">
                                 <div class="mt-2">
-                                    <span class="fs-3 pt-3">{{ activeEvent.name }}</span>
-                                    <span v-if="activeEvent.isCanceled" class="text-danger fw-bolder"> (canceled)</span>
+                                    <span class="fs-3 pt-3 white-text">{{ activeEvent.name }}</span>
+                                    <span v-if="activeEvent.isCanceled" class="text-danger fw-bolder fs-3">
+                                        (canceled)</span>
                                 </div>
-                                <p class="fs-4">{{ activeEvent.location }}</p>
+                                <p class="fs-4 white-text">{{ activeEvent.location }}</p>
                             </div>
-                            <p class="p-3">{{ activeEvent.shortStartDate }}</p>
+                            <p class="p-3 white-text">{{ activeEvent.shortStartDate }}</p>
                         </div>
-                        <p class="px-3">{{ activeEvent.description }}</p>
+                        <p class="px-3 white-text">{{ activeEvent.description }}</p>
                         <div class="d-flex justify-content-between">
-                            <p v-if="!activeEvent.isCanceled" class="px-3">{{ activeEvent.capacity }} tickets left</p>
+                            <p v-if="!activeEvent.isCanceled" class="px-3 white-text">{{ activeEvent.capacity }} tickets
+                                left</p>
                             <!-- <p v-if="activeEvent.isCanceled" class="px-3 text-danger fw-bolder">Canceled</p> -->
                             <button v-if="!activeEvent.isCanceled && activeEvent.capacity > 0" @click="createTicket()"
                                 class="mx-3 mb-3 btn btn-success">Buy a
@@ -50,7 +52,8 @@
             <div class="d-flex col-8 rounded mt-3 row">
                 <span>See what people are saying</span>
                 <div class="bg-secondary rounded">
-                    <span v-if="account.id" class="d-flex justify-content-end my-1">Join the conversation</span>
+                    <span v-if="account.id" class="d-flex justify-content-end my-1">Join the
+                        conversation</span>
                     <span v-if="!account.id" class="d-flex justify-content-end my-2">Login to join the
                         conversation</span>
                     <form v-if="account.id" @submit.prevent="createComment()">
@@ -78,6 +81,7 @@
 
                         </div>
                     </div>
+                    <p></p>
                 </div>
             </div>
         </section>
@@ -157,10 +161,20 @@ export default {
         }
         async function cancelEvent() {
             try {
-                const confirm = await Pop.confirm("Are you sure you want to cancel, or re-open this event?", "Canceled events can not sell tickets")
+                const confirm = await Pop.confirm("Are you sure you want to cancel this event?", "Canceled events can not sell tickets")
                 if (!confirm)
                     return
-                await eventService.cancelEvent(route.params.eventId)
+                await eventService.toggleEventCancellation(route.params.eventId)
+            } catch (error) {
+                Pop.error(error)
+            }
+        }
+        async function reopenEvent() {
+            try {
+                const confirm = await Pop.confirm("Are you sure you want to re-open this event?", "Tickets will be available for this event")
+                if (!confirm)
+                    return
+                await eventService.toggleEventCancellation(route.params.eventId)
             } catch (error) {
                 Pop.error(error)
             }
@@ -175,6 +189,7 @@ export default {
             deleteComment,
             createTicket,
             cancelEvent,
+            reopenEvent,
         }
     }
 };
@@ -203,5 +218,9 @@ export default {
 .comment-profile-photo {
     height: 5vh;
     border-radius: 50%;
+}
+
+.white-text {
+    color: white;
 }
 </style>

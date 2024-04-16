@@ -37,7 +37,8 @@ export default {
     border-style: solid;
     border-width: 10px;
     border-radius: 5px;
-    border-color: darkslategray;
+    // border-color: darkslategray;
+    border-color: var(--bs-secondary);
     overflow: hidden;
 }
 
@@ -53,7 +54,8 @@ export default {
     border-radius: 5px;
     border-style: solid;
     border-width: 1px;
-    border-color: rgb(76, 74, 74);
+    // border-color: rgb(76, 74, 74);
+    border-color: var(--bs-secondary);
 }
 
 .backdrop-blur:hover {

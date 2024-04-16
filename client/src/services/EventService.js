@@ -34,7 +34,7 @@ class EventService {
         logger.log('comments in the AppState:', AppState.comments)
     }
 
-    async cancelEvent(eventId) {
+    async toggleEventCancellation(eventId) {
         const response = await api.delete(`api/events/${eventId}`)
         console.log('event cancelation response', response.data)
         AppState.activeEvent = new Event(response.data)
