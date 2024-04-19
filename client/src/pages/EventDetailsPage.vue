@@ -32,12 +32,16 @@
                         </div>
                         <p class="px-3 white-text">{{ activeEvent.description }}</p>
                         <div class="d-flex justify-content-between">
-                            <p v-if="!activeEvent.isCanceled" class="px-3 white-text">{{ activeEvent.capacity }} tickets
+                            <p v-if="!activeEvent.isCanceled" class="px-3 white-text">{{ activeEvent.availability }} out
+                                of {{
+                    activeEvent.capacity }}
+                                tickets
                                 left</p>
                             <!-- <p v-if="activeEvent.isCanceled" class="px-3 text-danger fw-bolder">Canceled</p> -->
-                            <button v-if="!activeEvent.isCanceled && activeEvent.capacity > 0" @click="createTicket()"
-                                class="mx-3 mb-3 btn btn-success">Buy a
+                            <button v-if="!activeEvent.isCanceled && activeEvent.availability > 0 && account.id"
+                                @click="createTicket()" class="mx-3 mb-3 btn btn-success">Buy a
                                 ticket</button>
+                            <p v-if="!account.id">Login to buy a ticket</p>
                         </div>
                     </div>
                 </div>
@@ -109,6 +113,7 @@ export default {
             route.params.eventId
             getEventById()
             getComments()
+            getEventTickets()
         })
 
         async function getEventById() {
@@ -146,12 +151,6 @@ export default {
         }
         async function createTicket() {
             try {
-                // let eventId = route.params.eventId
-                // logger.log('Event Id for making a ticket:', eventId)
-                // I had route.params.eventId in () directly instead of defining it & logging it so i could see, because it says "eventId is required"
-                // await ticketService.createTicket(eventId)
-
-                // FIXME it is creating a ticket now but it doesn't update the capacity. I could edit the capacity every time a ticket is created or deleted, or maybe I could somehow subtract the event capacity by the total ticket count? 
                 let ticketData = { eventId: route.params.eventId }
                 await ticketService.createTicket(ticketData)
 
@@ -179,6 +178,10 @@ export default {
                 Pop.error(error)
             }
         }
+        async function getEventTickets() {
+            // let ticketData = { eventId: route.params.eventId }
+            await ticketService.getEventTickets(route.params.eventId)
+        }
 
         return {
             account,
@@ -190,6 +193,7 @@ export default {
             createTicket,
             cancelEvent,
             reopenEvent,
+
         }
     }
 };

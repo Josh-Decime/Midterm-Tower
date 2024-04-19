@@ -12,6 +12,13 @@ class TicketService {
         AppState.tickets.push(new Ticket(response.data))
     }
 
+    async getEventTickets(eventId) {
+        let response = await api.get(`api/events/${eventId}/tickets`)
+        let tickets = response.data.map(ticket => new Ticket(ticket))
+        AppState.tickets = tickets
+        console.log('tickets in the AppState:', AppState.tickets)
+    }
+
 
 
 }
