@@ -48,9 +48,12 @@
             </div>
             <div class="d-flex col-10 rounded mt-3 row">
                 <span>See who is attending</span>
-                <div class="bg-secondary rounded">
-                    <!-- TODO profile images from tickets go here -->
-                    <p>PROFILE PHOTOS GO HERE</p>
+                <div class="bg-secondary rounded row ">
+                    <!-- FIXME there has to be a better way to get these side by side -->
+                    <div v-for="ticket in tickets" class="col justify-content-start my-2">
+                        <img :src="ticket.profile.picture" :alt="`${ticket.profile.name}'s picture`" class="ticket-pic"
+                            :title="`${ticket.profile.name}`">
+                    </div>
                 </div>
             </div>
             <div class="d-flex col-8 rounded mt-3 row">
@@ -107,6 +110,7 @@ export default {
         const route = useRoute()
         const account = computed(() => AppState.account)
         const activeEvent = computed(() => AppState.activeEvent)
+        const tickets = computed(() => AppState.tickets)
         const comments = computed(() => AppState.comments)
         const commentData = ref({})
         watchEffect(() => {
@@ -179,7 +183,6 @@ export default {
             }
         }
         async function getEventTickets() {
-            // let ticketData = { eventId: route.params.eventId }
             await ticketService.getEventTickets(route.params.eventId)
         }
 
@@ -193,7 +196,7 @@ export default {
             createTicket,
             cancelEvent,
             reopenEvent,
-
+            tickets,
         }
     }
 };
@@ -226,5 +229,10 @@ export default {
 
 .white-text {
     color: white;
+}
+
+.ticket-pic {
+    height: 3vh;
+    border-radius: 50%;
 }
 </style>
