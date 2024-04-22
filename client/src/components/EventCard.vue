@@ -8,10 +8,9 @@
                     <p class="fs-5 mx-2 my-0">{{ event.location }}</p>
                     <p class="fs-5 mb-0 mx-2">{{ event.shortStartDate }}</p>
                     <div v-if="event.isCanceled" class="bg-danger text-black text-center">Canceled</div>
-                    <div v-if="!event.isCanceled && event.capacity > 0" class="text-end mx-2">{{ event.availability }}
-                        tickets left</div>
-                    <div v-if="!event.isCanceled && event.capacity <= 0" class="bg-danger text-black text-center">Sold
-                        out!</div>
+                    <div v-if="event.availability <= 0" class="bg-danger text-black text-center">Sold Out</div>
+                    <div v-if="!event.isCanceled && event.availability > 0" class="text-end mx-2">
+                        {{ event.availability }} tickets left</div>
                 </div>
             </div>
         </section>

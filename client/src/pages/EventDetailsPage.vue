@@ -25,6 +25,8 @@
                                     <span class="fs-3 pt-3 white-text">{{ activeEvent.name }}</span>
                                     <span v-if="activeEvent.isCanceled" class="text-danger fw-bolder fs-3">
                                         (canceled)</span>
+                                    <span v-if="activeEvent.availability <= 0" class="text-danger fw-bolder fs-3">(sold
+                                        out)</span>
                                 </div>
                                 <p class="fs-4 white-text">{{ activeEvent.location }}</p>
                             </div>
@@ -32,11 +34,9 @@
                         </div>
                         <p class="px-3 white-text">{{ activeEvent.description }}</p>
                         <div class="d-flex justify-content-between">
-                            <p v-if="!activeEvent.isCanceled" class="px-3 white-text">{{ activeEvent.availability }} out
-                                of {{
-                    activeEvent.capacity }}
-                                tickets
-                                left</p>
+                            <p v-if="!activeEvent.isCanceled && activeEvent.availability >= 0" class="px-3 white-text">
+                                {{ activeEvent.availability }} out
+                                of {{ activeEvent.capacity }} tickets left</p>
                             <!-- <p v-if="activeEvent.isCanceled" class="px-3 text-danger fw-bolder">Canceled</p> -->
                             <button v-if="!activeEvent.isCanceled && activeEvent.availability > 0 && account.id"
                                 @click="createTicket()" class="mx-3 mb-3 btn btn-success">Buy a
@@ -98,7 +98,7 @@
 <script>
 import { useRoute } from 'vue-router';
 import { AppState } from '../AppState';
-import { computed, ref, onMounted, watchEffect } from 'vue';
+import { computed, ref, onMounted, watchEffect, watch } from 'vue';
 import Pop from '../utils/Pop.js';
 import { eventService } from '../services/EventService.js';
 import { commentService } from '../services/CommentService.js';
@@ -118,6 +118,9 @@ export default {
             getComments()
             getEventTickets()
         })
+        // FIXME this was an attempt to make the ticket count update
+        // const availableTickets = ref(() => AppState.activeEvent.availability)
+
 
         async function getEventById() {
             try {
@@ -155,8 +158,9 @@ export default {
         async function createTicket() {
             try {
                 let ticketData = { eventId: route.params.eventId }
+                // FIXME this was an attempt to make the ticket count update
+                // activeEvent.availability -= 1
                 await ticketService.createTicket(ticketData)
-
             } catch (error) {
                 Pop.error(error)
             }
@@ -196,6 +200,7 @@ export default {
             cancelEvent,
             reopenEvent,
             tickets,
+            // availableTickets
         }
     }
 };

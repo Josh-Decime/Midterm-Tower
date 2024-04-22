@@ -4,7 +4,7 @@ import { BadRequest, Forbidden } from "../utils/Errors.js";
 class TicketService {
 
     async createTicket(ticketData) {
-        // TODO needs to check capacity for the event to make sure there is still spots left 
+        // TODO needs to check capacity for the event to make sure there is still spots left      
         const ticket = await dbContext.Tickets.create(ticketData)
         await ticket.populate('profile', 'name picture')
         // TODO subtract 1 from the capacity of the event
