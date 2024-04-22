@@ -46,11 +46,10 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex col-10 rounded mt-3 row">
+            <div v-if="tickets.length" class="d-flex col-10 rounded mt-3 row">
                 <span>See who is attending</span>
-                <div class="bg-secondary rounded row ">
-                    <!-- FIXME there has to be a better way to get these side by side -->
-                    <div v-for="ticket in tickets" class="col justify-content-start my-2">
+                <div class="bg-secondary rounded d-flex flex-wrap p-2">
+                    <div v-for="ticket in tickets">
                         <img :src="ticket.profile.picture" :alt="`${ticket.profile.name}'s picture`" class="ticket-pic"
                             :title="`${ticket.profile.name}`">
                     </div>
