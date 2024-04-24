@@ -104,6 +104,7 @@ import { eventService } from '../services/EventService.js';
 import { commentService } from '../services/CommentService.js';
 import { logger } from '../utils/Logger.js';
 import { ticketService } from '../services/TicketService.js';
+import { accountService } from '../services/AccountService.js';
 export default {
     setup() {
         const route = useRoute()
@@ -117,6 +118,7 @@ export default {
             getEventById()
             getComments()
             getEventTickets()
+            getMyTickets()
         })
         // FIXME this was an attempt to make the ticket count update
         // const availableTickets = ref(() => AppState.activeEvent.availability)
@@ -187,6 +189,10 @@ export default {
         }
         async function getEventTickets() {
             await ticketService.getEventTickets(route.params.eventId)
+        }
+
+        async function getMyTickets() {
+            await accountService.getMyTickets()
         }
 
         return {
