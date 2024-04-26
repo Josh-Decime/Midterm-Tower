@@ -13,7 +13,7 @@ class AccountService {
     }
   }
 
-  async getMyEventTickets() {
+  async getMyTickets() {
     const response = await api.get('/account/tickets')
     console.log('my tickets response', response.data)
   }

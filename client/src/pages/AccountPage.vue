@@ -9,10 +9,18 @@
 <script>
 import { computed } from 'vue';
 import { AppState } from '../AppState';
+import { onMounted } from 'vue';
 export default {
   setup() {
+    onMounted(() => getMyTickets)
+
+    async function getMyTickets() {
+      await accountService.getMyTickets()
+    }
+
+
     return {
-      account: computed(() => AppState.account)
+      account: computed(() => AppState.account),
     }
   }
 }
