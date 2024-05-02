@@ -27,6 +27,7 @@
                                         (canceled)</span>
                                     <span v-if="activeEvent.availability <= 0" class="text-danger fw-bolder fs-3">(sold
                                         out)</span>
+                                    <span v-if="checkAccountTickets">(Attending)</span>
                                 </div>
                                 <p class="fs-4 white-text">{{ activeEvent.location }}</p>
                             </div>
@@ -112,6 +113,10 @@ export default {
         const activeEvent = computed(() => AppState.activeEvent)
         const tickets = computed(() => AppState.tickets)
         const comments = computed(() => AppState.comments)
+        const checkAccountTickets = computed(() => {
+            const account = AppState.tickets.find(ticket => ticket.accountId == AppState.account.id)
+            return account != undefined
+        })
         const commentData = ref({})
         watchEffect(() => {
             route.params.eventId
@@ -206,6 +211,7 @@ export default {
             cancelEvent,
             reopenEvent,
             tickets,
+            checkAccountTickets,
             // availableTickets
         }
     }

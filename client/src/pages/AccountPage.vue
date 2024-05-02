@@ -15,6 +15,7 @@ export default {
     onMounted(() => getMyTickets)
 
     async function getMyTickets() {
+      console.log('getting tickets')
       await accountService.getMyTickets()
     }
 
