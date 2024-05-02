@@ -4,15 +4,21 @@
     <img class="rounded" :src="account.picture" alt="" />
     <p>{{ account.email }}</p>
   </div>
+  <div>
+    <p>All of your tickets:</p>
+    <div v-for="ticket in tickets"> ticket</div>
+  </div>
 </template>
 
 <script>
 import { computed } from 'vue';
 import { AppState } from '../AppState';
 import { onMounted } from 'vue';
+import { accountService } from '../services/AccountService.js';
 export default {
   setup() {
-    onMounted(() => getMyTickets)
+    onMounted(() => getMyTickets())
+    const tickets = computed(() => AppState.tickets)
 
     async function getMyTickets() {
       console.log('getting tickets')
@@ -22,6 +28,7 @@ export default {
 
     return {
       account: computed(() => AppState.account),
+      tickets,
     }
   }
 }
