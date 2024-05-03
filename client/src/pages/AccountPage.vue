@@ -15,7 +15,7 @@
         </div>
         <div class="col-12 col-md-6">
           <p>{{ ticket.event.name }}</p>
-          <button class="btn btn-danger pt-0 mb-1">Unattend</button>
+          <button @click="deleteTicket(ticket.id)" class="btn btn-danger pt-0 mb-1">Unattend</button>
         </div>
       </div>
     </div>
@@ -28,6 +28,7 @@ import { computed } from 'vue';
 import { AppState } from '../AppState';
 import { onMounted } from 'vue';
 import { accountService } from '../services/AccountService.js';
+import { ticketService } from '../services/TicketService.js';
 export default {
   setup() {
     onMounted(() => getMyTickets())
@@ -38,10 +39,15 @@ export default {
       await accountService.getMyTickets()
     }
 
+    async function deleteTicket(ticketId) {
+      await ticketService.deleteTicket(ticketId)
+    }
+
 
     return {
       account: computed(() => AppState.account),
       tickets,
+      deleteTicket,
     }
   }
 }
