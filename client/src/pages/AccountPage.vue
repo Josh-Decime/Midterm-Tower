@@ -4,9 +4,22 @@
     <img class="rounded" :src="account.picture" alt="" />
     <p>{{ account.email }}</p>
   </div>
-  <div>
+  <div class="row">
     <p>All of your tickets:</p>
-    <div v-for="ticket in tickets"> ticket</div>
+    <div v-for="ticket in tickets" class="bg-secondary mt-1 mx-2 col-3">
+      <div class="row">
+        <div class="col-12 col-md-5">
+          <router-link :to="{ path: `/eventDetails/${ticket.event.id}` }">
+            <img :src="ticket.event.coverImg" :alt="ticket.event.name" class="">
+          </router-link>
+        </div>
+        <div class="col-12 col-md-6">
+          <p>{{ ticket.event.name }}</p>
+          <button class="btn btn-danger pt-0 mb-1">Unattend</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
